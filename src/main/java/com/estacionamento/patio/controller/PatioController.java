@@ -1,10 +1,7 @@
 package com.estacionamento.patio.controller;
 
 import com.estacionamento.patio.payloads.request.VagaRequest;
-import com.estacionamento.patio.service.ConsultarVagaMensalistaService;
-import com.estacionamento.patio.service.ConsultarVagaService;
-import com.estacionamento.patio.service.OcuparVagaMensalistaService;
-import com.estacionamento.patio.service.OcuparVagaService;
+import com.estacionamento.patio.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +14,7 @@ public class PatioController {
     private final ConsultarVagaMensalistaService consultarVagaMensalistaService;
     private final OcuparVagaService ocuparVagaService;
     private final OcuparVagaMensalistaService ocuparVagaMensalistaService;
+    private final DevolverCarro devolverCarro;
 
     @GetMapping(path = "/consultarvagas")
     public boolean getConsultarVagas(){
@@ -36,8 +34,9 @@ public class PatioController {
     public void postOcuparVagaMensalista(@RequestBody VagaRequest vagaRequest){
         ocuparVagaMensalistaService.execute(vagaRequest.getPlaca());
     }
-
-    public void deleteVagaByPlaca(@RequestBody VagaRequest){
-
+    @DeleteMapping(path="/devolvercarro")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteVagaByPlaca(@RequestBody VagaRequest vagaRequest){
+        devolverCarro.execute(vagaRequest.getPlaca());
     }
 }
